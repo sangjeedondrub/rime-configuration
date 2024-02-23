@@ -2,12 +2,12 @@
 # encoding: utf-8
 
 
-# 适配了仓输入法 Hamster 九宫格布局。
-# 参考于仓作者 [morse.hsiao](https://github.com/imfuxiao) 的示例
+# 适配了仓输入法 [Hamster](https://github.com/imfuxiao/Hamster/) 九宫格布局。
+# 参考于仓老师 [morse.hsiao](https://github.com/imfuxiao) 的示例
 #
 # 可选，支持英文：
 # 1. 解开 `engine/translators` 下的注释
-# 2. 将 `others/Hamster九宫格/melt_eng.custom.yaml` 里的文件拷贝至配置目录，转写英文的拼写规则到九宫格；
+# 2. 将 `others/Hamster/melt_eng.custom.yaml` 里的文件拷贝至配置目录，该补丁转写了英文的拼写规则到九宫格；
 
 
 __include: rime_ice.schema.yaml:/
@@ -15,13 +15,13 @@ __include: rime_ice.schema.yaml:/
 
 schema:
   schema_id: t9
-  name: 雾凇拼音·九宫格
+  name: 仓·九宫格
   version: "1"
   author:
     - Dvel
     - '[morse.hsiao](https://github.com/imfuxiao)'
   description: |
-    雾凇拼音·九宫格 for 仓输入法
+    九宫格 for 仓输入法
   dependencies:
     - melt_eng  # 英文输入，作为次翻译器挂载到拼音方案
 
@@ -45,8 +45,9 @@ engine:
   translators:
     - punct_translator
     - script_translator
-    - lua_translator@date_translator      # 时间、日期、星期
-    # - table_translator@melt_eng         # 英文输入
+    - lua_translator@date_translator  # 时间、日期、星期
+    - table_translator@custom_phrase  # 自定义短语 custom_phrase_t9.txt
+    # - table_translator@melt_eng     # 英文输入
   filters:
     - simplifier@emoji                    # Emoji
     - simplifier@traditionalize           # 简繁切换
@@ -58,24 +59,46 @@ translator:
   spelling_hints: 100
 
 
+# 自定义短语：custom_phrase_t9.txt
+# ⚠️ 编码要用数字
+custom_phrase:
+  dictionary: ""
+  user_dict: custom_phrase_t9
+  db_class: stabledb
+  enable_completion: false
+  enable_sentence: false
+  initial_quality: 99
+
+
 # 九宫格 1 键上的符号序列
 punctuator:
   half_shape:
     "@": [1, "@", ".", "/", ":", "_", "-", "#"]
 
 
-# T9拼音
-# 大写字母为穷举后T9拼音的模糊匹配
-# 程序内部通过候选拼音的小写字母进行精确匹配
+# 输入时按 1 可以分词
+key_binder:
+  bindings:
+    - { when: has_menu, accept: at, send: apostrophe }
+
+
 speller:
   alphabet: zyxwvutsrqponmlkjihgfedcbaZYXWVUTSRQPONMLKJIHGFEDCBA987654321
   algebra:
+    # 如果需要模糊音，可参考 rime_ice.schema.yaml 下的示例，放到最前面来就行，但不会正常显示模糊后的拼音。
+    # - derive/^([zcs])h/$1/
+    # - derive/^([zcs])([^h])/$1h$2/
+    # - derive/^l/n/
+    # - derive/^n/l/
+    # ……
+    # T9拼音穷举，感谢仓老师 [morse.hsiao](https://github.com/imfuxiao) 勤劳的小手。
     - derive/[abc]/2/
     - derive/[bc]a/22/
     - derive/[bc]ai/224/
     - derive/[bc]an|[bc]ao/226/
     - derive/[bc]ang/2264/
     - derive/ce/23/
+    - derive/cei/234/
     - derive/bei/234/
     - derive/[bc]en/236/
     - derive/[bc]eng/2364/
@@ -83,6 +106,7 @@ speller:
     - derive/cha/242/
     - derive/chai/2424/
     - derive/bia[no]|cha[no]/2426/
+    - derive/biang/24264/
     - derive/chang/24264/
     - derive/bie|che/243/
     - derive/chen/2436/
@@ -297,7 +321,3 @@ speller:
     - derive/[xy]ue/983/
     - derive/zui/984/
     - derive/[xyz]un|zuo/986/
-    # 仓 TF 119 之前的版本需要：
-    # 1. 启用大写字母，解开下面的注释
-    # 2. 删除 rime_ice.dict.yaml 下的大写字母
-    # - xlit/22233344455566677778889999/AAADDDGGGJJJMMMPPPPTTTWWWW/
