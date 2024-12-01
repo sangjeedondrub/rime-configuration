@@ -82,7 +82,7 @@ ascii_composer:
 #              '`'（反引号）没有改成 '·'（间隔号）。
 punctuator:
   full_shape:
-    ' ' : { commit: '　' }
+    ' ' : { commit: ' ' }
     ',' : { commit: ， }
     '.' : { commit: 。 }
     '<' : [ 《, 〈, «, ‹ ]
