@@ -1,4 +1,4 @@
--- 日期时间
+-- 日期时间，可在方案中配置触发关键字。
 
 -- 提高权重的原因：因为在方案中设置了大于 1 的 initial_quality，导致 rq sj xq dt ts 产出的候选项在所有词语的最后。
 local function yield_cand(seg, text)
@@ -48,6 +48,7 @@ function M.func(input, seg, env)
     elseif (input == M.datetime) then
         local current_time = os.time()
         yield_cand(seg, os.date('%Y-%m-%dT%H:%M:%S+08:00', current_time))
+        yield_cand(seg, os.date('%Y-%m-%d %H:%M:%S', current_time))
         yield_cand(seg, os.date('%Y%m%d%H%M%S', current_time))
 
     -- 时间戳（十位数，到秒，示例 1650861664）
