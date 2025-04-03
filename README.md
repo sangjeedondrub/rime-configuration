@@ -1,6 +1,10 @@
 # 雾凇拼音
 
-[GPL-3.0-only](https://spdx.org/licenses/GPL-3.0-only.html)
+[![License: GPL 3.0](https://img.shields.io/badge/License-GPL--3.0--only-34ad9b)](https://www.gnu.org/licenses/gpl-3.0.txt)
+[![GitHub Release](https://img.shields.io/github/v/release/iDvel/rime-ice?filter=!nightly)](https://github.com/iDvel/rime-ice/releases/)
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/iDvel/rime-ice/release.yml)](https://github.com/iDvel/rime-ice/actions/workflows/release.yml)
+![GitHub Repo stars](https://img.shields.io/github/stars/iDvel/rime-ice)
+
 
 ![demo](./others/demo.webp)
 
@@ -98,7 +102,7 @@
 | Android | [Trime](https://github.com/osfans/trime)（同文输入法）       | ≥ 3.2.11                          |                                                              |
 | iOS     | [Hamster](https://apps.apple.com/cn/app/%E4%BB%93%E8%BE%93%E5%85%A5%E6%B3%95/id6446617683)（仓输入法） | N/A                               | 闭源；有内购                                                 |
 | Linux   | ibus + [ibus-rime](https://github.com/rime/ibus-rime)        | librime ≥ 1.8.5 且装有 librime-lua | 部分发行版需手动安装 librime-lua                             |
-| Linux   | fcitx5 + [fcitx5-rime](https://github.com/rime/ibus-rime)    | librime ≥ 1.8.5 且装有 librime-lua | 部分发行版需手动安装 librime-lua                             |
+| Linux   | fcitx5 + [fcitx5-rime](https://github.com/fcitx/fcitx5-rime) | librime ≥ 1.8.5 且装有 librime-lua | 部分发行版需手动安装 librime-lua                             |
 | macOS   | [Squirrel](https://github.com/rime/squirrel)（鼠须管）       | ≥ 1.0.0                           | 0.16.0 - 0.18.0 版本请参考[🔗](https://github.com/iDvel/rime-ice/issues/1062) |
 | macOS   | [fcitx5-macos](https://github.com/fcitx-contrib/fcitx5-macos) | N/A                               | 支持[卷轴模式](https://github.com/iDvel/rime-ice/issues/941) |
 | Windows | [Weasel](https://github.com/rime/weasel)（小狼毫）           | ≥ 0.15.0                            | 0.14.3 可手动更新 [rime.dll](https://github.com/iDvel/rime-ice/issues/197)（但不支持彩色 emoji）<br />Weasel 当下有兼容性问题，建议安装其他输入法备用 |
@@ -109,7 +113,7 @@ Linux 依赖问题的具体解释请参考 [#840](https://github.com/iDvel/rime-
 
 以下安装方式，选择其一：
 
-- [手动安装](#使用说明)
+- [手动安装](#手动安装)
 - [Git 安装](#git-安装)
 - [东风破 plum](#东风破-plum)
 - [自动部署脚本](#自动部署脚本)
@@ -150,11 +154,11 @@ git pull
 选择配方（`others/recipes/*.recipe.yaml`）来进行安装或更新。
 
 <details>
-<summary>/plum/ 简易安装和使用教程</summary>
+<summary>/plum/ 简易安装教程</summary>
 
 ---
 
-安装 plum（仅需要执行一次）
+安装 plum
 ```bash
 # 请先安装 git 和 bash，并加入环境变量
 # 请确保和 github.com 的连接稳定
@@ -163,33 +167,13 @@ git clone https://github.com/rime/plum.git plum
 # 卸载 plum 只需要删除 ~/plum 文件夹即可
 ```
 
-更新 plum
+使用 plum
 ```bash
 cd ~/plum
-bash rime-install plum
+bash rime-install <recipe_name>
 ```
-
-使用 plum 安装「雾凇拼音」方案的韵书（recipe）
-```bash
-cd ~/plum
-bash rime-install iDvel/rime-ice:others/recipes/full
-```
-
-指定 RIME 前端为 fcitx5-rime
-
-```bash
-cd ~/plum
-rime_frontend=fcitx5-rime bash rime-install iDvel/rime-ice:others/recipes/full
-```
-
-使用 plum 更新「雾凇拼音」的词库文件
-
-```sh
-cd ~/plum
-bash rime-install iDvel/rime-ice:others/recipes/all_dicts
-```
-
 ---
+
 </details>
 
 词库配方只是更新具体词库文件，并不更新 `rime_ice.dict.yaml` 和 `melt_eng.dict.yaml`，因为用户可能会挂载其他词库。如果更新后部署时报错，可能是增、删、改了文件名，需要检查上面两个文件和词库的对应关系。
@@ -249,7 +233,7 @@ bash rime-install iDvel/rime-ice@2024.05.21:others/recipes/full
 
 参考 [如何导入"雾凇拼音输入方案"](https://github.com/imfuxiao/Hamster/wiki/%E5%A6%82%E4%BD%95%E5%AF%BC%E5%85%A5%22%E9%9B%BE%E6%B7%9E%E6%8B%BC%E9%9F%B3%E8%BE%93%E5%85%A5%E6%96%B9%E6%A1%88%22)
 
-仓输入法目前已内置雾凇拼音，也可以通过【输入方案设置 - 右上角加号 - 方案下载 - 覆盖并部署】来更新雾凇拼音。
+仓输入法目前已内置雾凇拼音。
 
 使用九宫格，需要同时启用九宫格方案（输入方案设置）和九宫格布局（键盘设置 - 键盘布局 - 中文 9 键）。
 
@@ -313,6 +297,8 @@ patch:
 感谢 [@Huandeep](https://github.com/Huandeep) 整理的多个词库。
 
 感谢 [@Mirtle](https://github.com/mirtlecn) 完善的多个功能。
+
+感谢 [@Lithium-7](https://github.com/Lithium-7) 对词库的大量修订。
 
 感谢所有贡献者。
 
