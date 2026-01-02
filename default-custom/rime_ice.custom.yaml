@@ -2,6 +2,7 @@ patch:
   menu:
     page_size: 9  # 候选词个数
   grammar:
+    # Download the LM
     # https://github.com/amzxyz/RIME-LMDG/releases/download/LTS/wanxiang-lts-zh-hans.gram
     language: wanxiang-lts-zh-hans
     collocation_max_length: 5

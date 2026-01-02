@@ -13,3 +13,28 @@
 * TODO Fix Chinese punctuation issues
 
 - [ ] Can not type Chinese Juhao and Douhao in Rme for both Squirrel and Emacs.
+
+* ONDO Add =rime_ice_suggestion=
+
+This =rime_ice_suggestion= always warning when i start emacs from cli using
+=debug-init= flag.
+
+This is might be a fix.
+
+#+begin_src shell
+mv default.yaml rime_ice_suggestion.yaml
+#+end_src
+
+=default.custom.yaml=
+
+#+begin_src yaml
+patch:
+  # 仅使用「雾凇拼音」的默认配置，配置此行即可
+  __include: rime_ice_suggestion:/
+  # 以下根据自己所需自行定义，仅做参考。
+  # 针对对应处方的定制条目，请使用 <recipe>.custom.yaml 中配置，例如 rime_ice.custom.yaml
+  __patch:
+    key_binder/+:
+      select_first_character: "bracketleft" # 即 [
+      select_last_character: "bracketright" # 即 ]
+#+end_src
