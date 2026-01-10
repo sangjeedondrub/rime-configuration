@@ -14,3 +14,26 @@ patch:
   translator/contextual_suggestions: true
   translator/max_homophones: 7
   translator/max_homographs: 7
+
+  # Wanxiang dictionary supplement integration ✓ WORKING
+  engine/translators/+:
+    - table_translator@wanxiang_supplement
+
+  wanxiang_supplement:
+    dictionary: wanxiang_supplement
+    enable_completion: false
+    enable_sentence: false
+    initial_quality: 0.7  # Lower priority than rime-ice base (1.2) to prefer curated vocabulary
+    comment_format:
+      - xform/^/〔万象〕/  # Tag Wanxiang candidates for visibility
+
+  # Wanxiang Lua modules integration ✓ WORKING (3 modules enabled)
+  engine/processors/+:
+    - lua_processor@*auto_phrase         # Auto phrase learning ✓
+    - lua_processor@*partial_commit      # Enhanced commit control ✓
+
+  engine/filters/+:
+    - lua_filter@*super_filter           # Advanced filtering ✓
+
+  # Note: input_statistics.lua is disabled - it causes input method to fail
+  # Available but not enabled: super_calculator, super_english, shijian, quick_symbol_text, etc.

@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls:*)",
+      "Bash(xargs:*)",
+      "Bash(\"/Library/Input Methods/Squirrel.app/Contents/MacOS/Squirrel\" --reload)"
+    ]
+  }
+}

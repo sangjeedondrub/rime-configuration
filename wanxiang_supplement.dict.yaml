@@ -1,0 +1,21 @@
+# Rime dictionary
+# encoding: utf-8
+# Wanxiang dictionaries supplement for rime-ice
+# Adds comprehensive vocabulary from Wanxiang project
+
+---
+name: wanxiang_supplement
+version: "2025.01.11"
+sort: by_weight
+import_tables:
+  - wanxiang_dicts/jichu        # Core vocabulary (48MB)
+  - wanxiang_dicts/lianxiang     # Associated words (17MB)
+  - wanxiang_dicts/shici         # Poetry & classical literature (16MB)
+  - wanxiang_dicts/diming        # Place names (2.5MB)
+  - wanxiang_dicts/en            # English vocabulary (1.3MB)
+  - wanxiang_dicts/zi            # Character dictionary (618KB)
+  - wanxiang_dicts/duoyin        # Multi-pronunciation (172KB)
+  - wanxiang_dicts/cn_en         # Chinese-English mixed (36KB) - FIXED FILENAME
+  - wanxiang_dicts/cuoyin        # Error pronunciation corrections (5.9KB)
+  # Note: wuzhong.dict.yaml (2.8MB Five-stroke auxiliary) excluded - not needed for pinyin
+...
