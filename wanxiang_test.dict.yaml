@@ -1,0 +1,11 @@
+# Rime dictionary
+# encoding: utf-8
+# Test dictionary for Wanxiang
+
+---
+name: wanxiang_test
+version: "2025.01.11"
+sort: by_weight
+...
+测试词汇	cè shì cí huì	999	test
+万象测试	wàn xiàng cè shì	999	test

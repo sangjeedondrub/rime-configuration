@@ -14,10 +14,48 @@ patch:
   translator/contextual_suggestions: true
   translator/max_homophones: 7
   translator/max_homographs: 7
+  # REMOVED - these were blocking single character output!
+  # translator/enable_sentence: false
+  # translator/enable_completion: false
 
   # Wanxiang dictionary supplement integration ✓ WORKING
-  engine/translators/+:
-    - table_translator@wanxiang_supplement
+  # TEMPORARILY DISABLE to test script_translator
+  # engine/translators/+:
+  #   - table_translator@wanxiang_supplement
+
+  # DISABLE all table translators to test if script_translator works
+  engine/translators:
+    - punct_translator
+    - script_translator
+    - "lua_translator@*date_translator"
+    - "lua_translator@*lunar"
+    # - "table_translator@custom_phrase"  # Disabled temporarily
+    # - "table_translator@melt_eng"
+    # - "table_translator@cn_en"
+    # - "table_translator@radical_lookup"
+    - "lua_translator@*unicode"
+    - "lua_translator@*number_translator"
+    - "lua_translator@*calc_translator"
+    - "lua_translator@*force_gc"
+    # - "table_translator@wanxiang_supplement"
+
+  # Disable English for short inputs - prevent English from polluting single character inputs
+  melt_eng/enable_completion: false
+  melt_eng/initial_quality: 0.5  # Lower priority than Chinese (was 1.1)
+
+  # Lower cn_en priority to prevent "牛B" appearing before single chars
+  cn_en/enable_completion: false  # Disable prefix completion
+  cn_en/initial_quality: 0.3  # Lower priority
+
+  # Aggressively reduce English candidates for short inputs
+  reduce_english_filter/mode: all  # Lower ALL short English words (was: custom)
+  reduce_english_filter/idx: 9  # Push to last position in 9-candidate list (was: 2)
+
+  # Disable long word promotion - we want single chars for short inputs
+  long_word_filter/count: 0  # Don't promote any long words (was: 2)
+
+  # REMOVE speller/algebra override - it broke basic pinyin input
+  # The real issue is cn_en doing prefix matching, not super abbreviation
 
   wanxiang_supplement:
     dictionary: wanxiang_supplement
@@ -25,15 +63,20 @@ patch:
     enable_sentence: false
     initial_quality: 0.7  # Lower priority than rime-ice base (1.2) to prefer curated vocabulary
     comment_format:
-      - xform/^/〔万象〕/  # Tag Wanxiang candidates for visibility
+      - xform/.*/〔万象〕&/  # Prepend tag to any comment (including empty)
 
   # Wanxiang Lua modules integration ✓ WORKING (3 modules enabled)
   engine/processors/+:
     - lua_processor@*auto_phrase         # Auto phrase learning ✓
     - lua_processor@*partial_commit      # Enhanced commit control ✓
 
+  # DISABLE single_char_first - it might be breaking things
+  # engine/filters/@before 0:
+  #   - lua_filter@*single_char_first      # Prioritize single chars BEFORE other filters
+
   engine/filters/+:
     - lua_filter@*super_filter           # Advanced filtering ✓
+    - lua_filter@*wanxiang_tagger        # Tag Wanxiang candidates
 
   # Note: input_statistics.lua is disabled - it causes input method to fail
   # Available but not enabled: super_calculator, super_english, shijian, quick_symbol_text, etc.
