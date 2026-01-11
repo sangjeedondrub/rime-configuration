@@ -47,7 +47,12 @@
 又有	uu
 又又又	uuu
 又双叒叕	uuuu
+藏语智能全国重点实验室	qz
+青海师范大学	sd
+藏语多语言大模型	dmx
+计算机学院	xy
 
+Sangjee Dondrub <sangjeedondrub@live.com>	info
 go	go
 Golang	golang
 Hugo	hugo
