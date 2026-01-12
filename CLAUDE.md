@@ -93,6 +93,27 @@ ibus-daemon -drx
 
 After deployment, check `build/` directory for compiled `.prism.bin`, `.table.bin`, and `.reverse.bin` files.
 
+### Wanxiang Integration
+
+**Status**: ✅ Working (see WANXIANG.md for details)
+
+Wanxiang provides neural language model for contextual candidate ranking:
+
+```bash
+# Download language model (manual step)
+# https://github.com/amzxyz/RIME-LMDG/releases/download/LTS/wanxiang-lts-zh-hans.gram
+# Place in: ~/Library/Rime/
+```
+
+**Critical Configuration** (`rime_ice.custom.yaml`):
+```yaml
+grammar:
+  language: wanxiang-lts-zh-hans
+  collocation_min_length: 1  # MUST be 1 (not 3) for single character input
+```
+
+**Known Issue**: `lua_filter@*super_filter` blocks single character candidates. Keep it disabled.
+
 ### Wanxiang LM Update Script
 
 For users with Wanxiang language model integration:
