@@ -6,7 +6,7 @@ patch:
     # https://github.com/amzxyz/RIME-LMDG/releases/download/LTS/wanxiang-lts-zh-hans.gram
     language: wanxiang-lts-zh-hans
     collocation_max_length: 6
-    collocation_min_length: 3
+    collocation_min_length: 1
     collocation_penalty: -10
     non_collocation_penalty: -20
     weak_collocation_penalty: -45
@@ -14,32 +14,27 @@ patch:
   translator/contextual_suggestions: true
   translator/max_homophones: 7
   translator/max_homographs: 7
-  # REMOVED - these were blocking single character output!
-  # translator/enable_sentence: false
-  # translator/enable_completion: false
+  translator/enable_sentence: false
+  translator/enable_completion: false
 
-  # Wanxiang dictionary supplement integration ✓ WORKING
-  # TEMPORARILY DISABLE to test script_translator
-  # engine/translators/+:
-  #   - table_translator@wanxiang_supplement
+  engine/translators/+:
+    - table_translator@wanxiang_supplement
 
-  # DISABLE all table translators to test if script_translator works
   engine/translators:
     - punct_translator
     - script_translator
     - "lua_translator@*date_translator"
     - "lua_translator@*lunar"
-    # - "table_translator@custom_phrase"  # Disabled temporarily
-    # - "table_translator@melt_eng"
-    # - "table_translator@cn_en"
-    # - "table_translator@radical_lookup"
+    - "table_translator@custom_phrase"  # Disabled temporarily
+    - "table_translator@melt_eng"
+    - "table_translator@cn_en"
+    - "table_translator@radical_lookup"
     - "lua_translator@*unicode"
     - "lua_translator@*number_translator"
     - "lua_translator@*calc_translator"
     - "lua_translator@*force_gc"
-    # - "table_translator@wanxiang_supplement"
+    - "table_translator@wanxiang_supplement"
 
-  # Disable English for short inputs - prevent English from polluting single character inputs
   melt_eng/enable_completion: false
   melt_eng/initial_quality: 0.5  # Lower priority than Chinese (was 1.1)
 
@@ -65,18 +60,14 @@ patch:
     comment_format:
       - xform/.*/〔万象〕&/  # Prepend tag to any comment (including empty)
 
-  # Wanxiang Lua modules integration ✓ WORKING (3 modules enabled)
   engine/processors/+:
-    - lua_processor@*auto_phrase         # Auto phrase learning ✓
-    - lua_processor@*partial_commit      # Enhanced commit control ✓
-
-  # DISABLE single_char_first - it might be breaking things
-  # engine/filters/@before 0:
-  #   - lua_filter@*single_char_first      # Prioritize single chars BEFORE other filters
-
+    - lua_processor@*auto_phrase
+    - lua_processor@*partial_commit
   engine/filters/+:
-    - lua_filter@*super_filter           # Advanced filtering ✓
-    - lua_filter@*wanxiang_tagger        # Tag Wanxiang candidates
+    # DISABLED: Wanxiang Lua modules break single chinese typing
+    # FIXME: what's the issue with lua script
+    # - lua_filter@*super_filter
+    - lua_filter@*wanxiang_tagger
 
   # Note: input_statistics.lua is disabled - it causes input method to fail
   # Available but not enabled: super_calculator, super_english, shijian, quick_symbol_text, etc.
